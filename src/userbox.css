@@ -1,0 +1,119 @@
+/* the dragbox */
+
+#ub-box {
+    padding: 0px 6px;
+    margin: 0;
+    overflow: auto;
+}
+
+#ub-box li.ub-item {
+    display: block;
+    margin: 6px 0px;
+    cursor: pointer;cursor: hand;
+}
+
+.ub-title {
+    border: 0;
+    padding: 2px;
+    margin: 0;
+
+    text-shadow: 0 1px 1px #333;
+
+    size: 16px;
+    font-family: "Lucida Grande", arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* the improved input list */
+
+ul.ub-inputlist {
+    list-style-type: none;
+    border: 1px solid #aaa;
+    border-color: #888 #aaa #bbb;
+    padding: 2px;
+    margin: 0 0 10px;
+    overflow: auto;
+    background-color: #fff;
+    min-height: 24px;
+}
+
+ul.ub-inputlist li {
+    float: left;
+    margin: 1px 4px 1px 0;
+}
+
+.ub-inputlist:hover, .ub-inputlist.active {
+    border: 1px solid #922;
+}
+
+/* the item tags, in both the dragbox and the improved input list */
+
+li.ub-item {
+    list-style-type: none;
+    color: #334;
+    font-size: 13px;
+    font-family: "Lucida Grande", arial, sans-serif;
+    text-shadow: 0 1px 1px #fff;
+    background-color: #def;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#def), to(#bde));
+    background-image: -moz-linear-gradient(top, #def, #bde);
+    border: 1px solid #abe;
+    border-top-color: #bde;
+    padding: 2px 7px 2px 10px;
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+}
+
+li.ub-item:hover, li.ub-item-active {
+    cursor: pointer;cursor: hand;
+    color: #334;
+    background-color: #bde;
+    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#bde), to(#9cd));
+    background-image: -moz-linear-gradient(top, #bde, #9cd);
+    border-color: #69d;
+    border-top-color: #8be;
+}
+
+/* the ×(close) button, on the item tag */
+
+.ub-close {
+    display: none;
+}
+
+ul.ub-inputlist li.ub-item a.ub-close {
+    display: inline;
+    float: right;
+    margin: 1px 0 0 6px;
+    padding: 0px 2px;
+    color: #58b;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 1px 1px #fff;
+    -webkit-transition: color .1s ease-in;
+}
+
+ul.ub-inputlist li:hover.ub-item a.ub-close {
+    color: #57c;
+}
+
+ul.ub-inputlist li.ub-item a:hover.ub-close {
+    color: #611;
+}
+
+/* the text input box */
+
+ul.ub-inputlist li.ub-original {
+    margin-left: 0;
+}
+
+ul.ub-inputlist li.ub-original input {
+    border: none;
+    width: auto;
+}
+
+ul.ub-inputlist li.ub-original input:focus {
+    outline: none;
+}
+

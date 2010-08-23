@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<title>test</title>
+<link rel="stylesheet" type="text/css" href="userBox.css" />
+<style>
+td,th { vertical-align: top }
+
+/* userBox will respect the your input widths */
+input {
+    width: 400px;
+}
+
+/* you can shape the size and colors of the userBox */
+#userlist {
+    width: 200px;
+    height: 200px;
+    margin: 0px;
+    margin-left: 20px;
+    border: 1px solid #789;
+    background-color: #eee;
+}
+
+/* optional, only needed if you use the title option */
+.ub-title {
+    color: #eee;
+    background-color: #789;
+}
+
+</style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="jquery.userBox.js"></script>
+<script type="text/javascript">
+var data = [
+    {name: "Adam Adamson",    email: "adam@test.com"},
+    {name: "Betsy Boop",      email: "betsy@test.com"},
+    {name: "Carl Cuffed",     email: "carl@test.com"},
+    {name: "Daniel Davidson", email: "daniel@test.com"},
+    {name: "Ernie Mack",      email: "ernie@test.com"},
+    {name: "Fran Franco",     email: "fran@test.com"},
+    {name: "Gary Glennross",  email: "gary@test.com"},
+    {name: "Hannah Sister",   email: "hannah@test.com"},
+    {name: "Issac Iziekel",   email: "issac@test.com"},
+    {name: "Jooles Jooles",   email: "julie@test.com"}
+];
+
+$(document).ready(function() {
+    $('input').userBox(data, {
+        dragbox: '#userlist',
+        data_id_field: 'email',
+        data_text_field: 'name',
+        title: 'User list'
+    });
+});
+</script>
+</head>
+<body>
+
+<table>
+<tr><th>to:</th><td><input type="text" name="to" id="to" /></td><td rowspan="3"><div id="userlist"></div></td></tr>
+<tr><th>cc:</th><td><input type="text" name="cc" id="cc" /></td></tr>
+<tr><th>bcc:</th><td><input type="text" name="bcc" id="bcc" /></td></tr>
+</table>
+
+</body>
+</html>

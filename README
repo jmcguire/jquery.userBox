@@ -1,0 +1,82 @@
+UserBox jQuery UI Plugin v1.0
+-----------------------------
+Copyright (c) 2010 Justin McGuire. Licensed under the MIT License.
+Contact: mcguire+justin@gmail.com
+
+
+Overview
+--------
+
+A jQuery UI plugin that creates a nice drag-and-drop interface for an
+online email client. You can drag users from the userlist over to the various
+email input fields, i.e. To, CC, BCC.
+
+
+Usage
+-----
+
+var data = [
+    {text: "Adam Adamson", id: "adam@test.com"},
+    {text: "Betsy Boop",   id: "betsy@test.com"},
+    {text: "Carl Cuffed",  id: "carl@test.com"},
+];
+
+$('.email_input').userBox(data, {
+    dragbox: '#userlist'
+});
+
+
+Parameters
+----------
+
+dragbox
+
+ - The #id of the block-level element that will be hold the user listing.  This
+   is the only required parameter.
+
+separator
+
+ - All input data is separated with this field.  Default is "," (a comma).
+
+data_id_field
+
+ - The fieldname of the ID value in the data hash.  This is the data that is
+   passed through with the form submission.  Default is "id".
+
+data_text_field
+
+ - The fieldname of the text value in the data hash.  This is the data that is
+   displayed to the user.  Default is "text".
+
+title
+
+ - A title that is displayed above the dragbox.  If it's set to false, then it
+   won't display.  You can style it with ".ub-title", I'd recommend setting the color and background-color at a minimum.  Default is false.
+
+dbl_click
+
+ - If you double-click an item in the userbox, it will automaticaly go to the
+   #field specified here.  This field *must* match up to a field you called the userbox with, otherwise a double click will cause an item to disappear.  By default this will automatically be set to the first input field in the userbox function call.
+
+css_tricks
+
+ - userbox does a few cute tricks within the code to make things to make things
+   fit and look good (i.e. with padding, height, and width). Setting this to
+   false will turn all those tricks off, letting you style everything manually
+   through CSS. Default is true.
+
+
+Misc Notes
+-------------
+
+Minimum jQuery versions:
+
+    - jQuery    1.4.0
+    - jQuery UI 1.7.0
+
+(Note: This program could be modifed for earlier jQuery versions, just redo the
+first() and last() calls.)
+
+Much code & CSS was flagrantly filched from AutoSuggest by Drew Wilson (drewwilson.com)
+Which was itself brazenly bagged from FaceList by Ian Tearle (iantearle.com)
+
