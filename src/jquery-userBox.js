@@ -270,22 +270,3 @@ $.fn.userBox.defaults = {
 
 })(jQuery);
 
- /*
-KNOWN ERRORS:
-  * if the user manually enters "ub-index-#" (where # is some number) into the
-    text box, we'll get a copy of the item from the dragbox with that id.
-  * "ub-index-#" cannot be ever entered manually. adjust with an option?
-    "index_name_nudge"? recode to not confuse indicies and manual entries?
-  * if you activate an item by hitting delete key once, then add another item
-    to the field, the originally activated one isn't reset, and can reset with
-    one delete
-  * if the user manually enters text that also exists in the dragbox, should we
-    figure this out, take it out of the dragbox and insert that one instead?
-    should we use the display_name?
-  * quotation marks in the data.id will screw us up. XSS problem?
-  * html in the data.text with screw us up. XSS problem?
-  * should allow multiple userboxes. work around all IDs. index_name_nudge
-    again? has to be a better option, lists?
-  * the data should be retrievable via a json call
-*/
-
