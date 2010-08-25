@@ -38,17 +38,17 @@ $.fn.userBox = function(data, options) {
     var text_inputs   = new Object(); // the input text boxes
     var hidden_inputs = new Object(); // the hidden input element, stores the real form value
 
-    var dragbox = setup_dragbox($(opts.dragbox));
+    var userbox = setup_userbox($(opts.userbox));
     var data_hash = new Object(); // hash, to easily track of all the data
 
-    // populate the dragbox with the data
+    // populate the userbox with the data
     $.each( data, function (index, value) {
         data_hash['ub-index-' + index] = {
             id: value[opts.data_id_field],
             display_text: value[opts.data_text_field]
         };
         
-        // create the list item in the dragbox
+        // create the list item in the userbox
         var item = $('<li class="ub-item" id="ub-index-' + index + '">' + value[opts.data_text_field] + '</li>');
         // a double-click will automatically move it to the first input
         item.dblclick( function(){
@@ -56,7 +56,7 @@ $.fn.userBox = function(data, options) {
             add_selected_item(opts.dbl_click, 'ub-index-' + index);
         });
 
-        dragbox.append(item);
+        userbox.append(item);
     });
 
     $('.ub-item').draggable(draggable_setup);
@@ -96,7 +96,7 @@ $.fn.userBox = function(data, options) {
                 if (ui.draggable.data('index')) { // we're coming from another input field
                     var index = ui.draggable.data('index');
                     ui.draggable.data('moving')();
-                } else { // we're coming from the dragbox
+                } else { // we're coming from the userbox
                     // remove the item
                     ui.draggable.slideUp('fast');
                     var index = ui.draggable.attr('id');
@@ -119,21 +119,21 @@ $.fn.userBox = function(data, options) {
         if (data_hash[index]) {
             var id = data_hash[index].id;
             var display_text = data_hash[index].display_text;
-            var from_dragbox = 1;
+            var from_userbox = 1;
         } else {
             var id = index;
             var display_text = index;
-            var from_dragbox = 0;
+            var from_userbox = 0;
         }
         
         // create the new item
         var item = $('<li class="ub-item"></li>').draggable(draggable_setup);
         item.data('index', index).data('in', field_ident);
         
-        // call this if you want to remove it from the input box (and put it back in the dragbox)
+        // call this if you want to remove it from the input box (and put it back in the userbox)
         item.data('removing', function(){
             item.data('moving')();
-            if (from_dragbox) $('#' + index).slideDown(); // put it back into the dragbox
+            if (from_userbox) $('#' + index).slideDown(); // put it back into the userbox
         });
         
         // call this if you're moving it from one input field to another
@@ -213,11 +213,11 @@ $.fn.userBox = function(data, options) {
         return ul_box;
     };
 
-    // set up the dragbox inside the block we're given
-    function setup_dragbox (container) {
+    // set up the userbox inside the block we're given
+    function setup_userbox (container) {
         if (opts.css_tricks) container.css('padding', '0px'); // this will mess us up
 
-        var offset = 0; // used to calculate the height of the <ul> dragbox
+        var offset = 0; // used to calculate the height of the <ul> userbox
 
         if (opts.title) {
             var title_box = $('<div class="ub-title">' + opts.title + '</div>');
@@ -225,16 +225,16 @@ $.fn.userBox = function(data, options) {
             offset += title_box.outerHeight();
         }
 
-        var dragbox = $('<ul id="ub-box"></ul>');
-        container.append(dragbox);
+        var userbox = $('<ul id="ub-box"></ul>');
+        container.append(userbox);
         
-        offset += parseInt(dragbox.css('padding-top').replace('px', ''))
-                + parseInt(dragbox.css('padding-bottom').replace('px', '')) ;
+        offset += parseInt(userbox.css('padding-top').replace('px', ''))
+                + parseInt(userbox.css('padding-bottom').replace('px', '')) ;
 
         // make the userbox fit perfectly in our supplied box, respecting its height
-        if (opts.css_tricks) dragbox.height( container.innerHeight() - offset );
+        if (opts.css_tricks) userbox.height( container.innerHeight() - offset );
 
-        return dragbox;
+        return userbox;
     };
 
     //
@@ -258,7 +258,7 @@ $.fn.userBox = function(data, options) {
 
 // config defaults
 $.fn.userBox.defaults = {
-    dragbox: '',        // the #id of the element that will hold the user list
+    userbox: '',        // the #id of the element that will hold the user list
     separator: ',',     // separatorm, placed between elements in the input
     data_id_field: 'id',     // fieldname that is passed with the form submit
     data_text_field: 'text', // fieldname that is displayed to the user
