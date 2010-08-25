@@ -1,15 +1,15 @@
  /*
  * UserBox
- * 
+ *
  * Copyright 2010 Justin McGuire. Licensed under the MIT License.
  * Contact: mcguire+justin@gmail.com
- * 
+ *
  * Version 1.0
  *
  * Enable a drag and drop user selection system.
  * This plugin was developed to enable a nice online email interface, where you can drag users
  * from a userbox onto the desired field, To, CC, or BCC.
- * 
+ *
  * Minimum versions: jQuery 1.4.0, jQuery UI 1.7.0
  * (Note: This program can be modifed for earlier jQuery versions.)
  *
@@ -43,13 +43,10 @@ $.fn.userBox = function(data, options) {
 
     // populate the userbox with the data
     $.each( data, function (index, value) {
-        data_hash['ub-index-' + index] = {
-            id: value[opts.data_id_field],
-            display_text: value[opts.data_text_field]
-        };
-        
         // create the list item in the userbox
-        var item = $('<li class="ub-item" id="ub-index-' + index + '">' + value[opts.data_text_field] + '</li>');
+        var item = $('<li class="ub-item" id="ub-index-' + index + '">'
+                     + value[opts.data_text_field] + '</li>');
+
         // a double-click will automatically move it to the first input
         item.dblclick( function(){
             item.slideUp('fast');
@@ -57,6 +54,13 @@ $.fn.userBox = function(data, options) {
         });
 
         userbox.append(item);
+
+        data_hash['ub-index-' + index] = {
+            id: value[opts.data_id_field],
+            display_text: value[opts.data_text_field],
+            item: item
+        };
+
     });
 
     $('.ub-item').draggable(draggable_setup);
@@ -107,7 +111,13 @@ $.fn.userBox = function(data, options) {
             }
         });
 
+        // fill in this input with any specified defaults
+        var id = $(this).attr('id');
+        if (opts.prefill[id]) prefill( opts.prefill[id], ul_box );
+
     });
+
+    // DONE WITH SETUP
 
     // add an item to the "improved input list"
     //   field_ident => the "name" of the input box we want to add this to
@@ -125,17 +135,17 @@ $.fn.userBox = function(data, options) {
             var display_text = index;
             var from_userbox = 0;
         }
-        
+
         // create the new item
         var item = $('<li class="ub-item"></li>').draggable(draggable_setup);
         item.data('index', index).data('in', field_ident);
-        
+
         // call this if you want to remove it from the input box (and put it back in the userbox)
         item.data('removing', function(){
             item.data('moving')();
             if (from_userbox) $('#' + index).slideDown(); // put it back into the userbox
         });
-        
+
         // call this if you're moving it from one input field to another
         item.data('moving', function(){
             remove_from_hidden(field_ident, id); // reset the hidden input
@@ -167,19 +177,20 @@ $.fn.userBox = function(data, options) {
     // appealing bubbles.
     function setup_input (input_field) {
         var name = input_field.attr('name');
-        var values_input = $('<input type="hidden" class="ub-values" name="'+name+'" id="ub-values-'+name+'" />');
-        
+        var values_input = $('<input type="hidden" class="ub-values" name="' + name
+                            + '" id="ub-values-' + name + '" />');
+
         var ul_box = $('<ul id="ub-drop-'+name+'" class="ub-inputlist"></ul>');
         ul_box.width( input_field.width() ); // respect the original input width
         input_field.wrap(ul_box).wrap('<li class="ub-original"></li>');
         input_field.after(values_input);
-        
+
         // make all clicks anywhere in the "improved input list" go to the actual input text box
         $('#ub-drop-'+name).click(function(){
             input_focus = true;
             input_field.focus();
         }).mousedown(function(){ input_focus = false; });
-        
+
         // TODO: change 188 to the opts.separator instead
         input_field.keydown(function(event) {
             switch (event.keyCode) {
@@ -227,7 +238,7 @@ $.fn.userBox = function(data, options) {
 
         var userbox = $('<ul id="ub-box"></ul>');
         container.append(userbox);
-        
+
         offset += parseInt(userbox.css('padding-top').replace('px', ''))
                 + parseInt(userbox.css('padding-bottom').replace('px', '')) ;
 
@@ -236,6 +247,33 @@ $.fn.userBox = function(data, options) {
 
         return userbox;
     };
+
+    // a wrapper for prefill_item, this just decides whether we have a 
+    function prefill(prefill_data, input_box) {
+    
+        // find and place one item
+        var prefill_item = function (id) {
+            var found = 0;
+            $.each(data_hash, function(index, value){
+                if (value.id != id) return;
+                found = 1;
+                value.item.slideUp('fast');
+                input_box.data('add_item')(index);
+            });
+            if (!found) {
+                input_box.data('add_item')(id);
+            }
+        }
+
+        // just check whether we have one item or an array of them
+        if (typeof prefill_data == 'string') {
+            prefill_item(prefill_data)
+        } else {
+            $.each(prefill_data, function(index, value){
+                prefill_item(value)
+            });
+        }
+    }
 
     //
     // UTILITY FUNCTIONS
@@ -247,11 +285,15 @@ $.fn.userBox = function(data, options) {
     };
 
     function add_to_hidden (field_ident, id) {
-        hidden_inputs[field_ident].val(hidden_inputs[field_ident].val() + id + opts.separator);    
+        hidden_inputs[field_ident].val(
+            hidden_inputs[field_ident].val() + id + opts.separator
+        );
     };
-    
+
     function remove_from_hidden (field_ident, id) {
-        hidden_inputs[field_ident].val(hidden_inputs[field_ident].val().replace(id + opts.separator, ''));
+        hidden_inputs[field_ident].val(
+            hidden_inputs[field_ident].val().replace(id + opts.separator, '')
+        );
     };
 
 };
@@ -265,7 +307,8 @@ $.fn.userBox.defaults = {
     title: false,       // title of userbox
                         // you can style it with .ub-title
     dbl_click: '',      // #id of default input field for on a double-click
-    css_tricks: true    // enable css tricks with padding, height, and width
+    css_tricks: true,   // enable css tricks with padding, height, and width
+    prefill: []         // move or create items to selected fields
 };
 
 })(jQuery);

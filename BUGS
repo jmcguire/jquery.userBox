@@ -23,7 +23,3 @@ KNOWN ERRORS:
 
   * the data should be retrievable via a json call
 
-  * take in presets. "preset: { 'email': '#field', 'email2': '#field' }",
-    automatically find and move (or create) the presets to their associated
-    fields
-
