@@ -50,7 +50,7 @@ $.fn.userBox = function(data, options) {
         // a double-click will automatically move it to the first input
         item.dblclick( function(){
             item.slideUp('fast');
-            add_selected_item(opts.dbl_click, 'ub-index-' + index);
+            add_item_to_field('ub-index-' + index, opts.dbl_click);
         });
 
         userbox.append(item);
@@ -82,13 +82,12 @@ $.fn.userBox = function(data, options) {
         $(this).attr('name', 'ub-placeholder-' + name);
 
         // to add an item to this field, just use this closure
-        // TODO: don't add to $(this)--it's an add to the UL ???
         ul_box.data('add_item', function(index){
-            add_selected_item(name, index);
+            add_item_to_field(index, name);
         });
-
+        
         // dropping setup, for the all the improved input lists
-        $('ul.ub-inputlist').droppable({
+        ul_box.droppable({
             accept: '.ub-item',
             hoverClass: 'active',
             tolerance: 'touch',
@@ -106,24 +105,22 @@ $.fn.userBox = function(data, options) {
                     var index = ui.draggable.attr('id');
                 }
 
-                //add_selected_item(field_ident, index);
-                ul_box.data('add_item')(index);
+                $(this).data('add_item')(index);
             }
         });
 
         // fill in this input with any specified defaults
         var id = $(this).attr('id');
         if (opts.prefill[id]) prefill( opts.prefill[id], ul_box );
-
     });
-
+    
     // DONE WITH SETUP
 
     // add an item to the "improved input list"
     //   field_ident => the "name" of the input box we want to add this to
     //   index => index for data_hash (to retrieve the name and email)
     //            if this is a manually entered item, then this is the input text
-    function add_selected_item(field_ident, index){
+    function add_item_to_field(index, field_ident){
         //alert("field_ident: " + field_ident + ", index: " + index);
 
         if (data_hash[index]) {
@@ -184,9 +181,13 @@ $.fn.userBox = function(data, options) {
         ul_box.width( input_field.width() ); // respect the original input width
         input_field.wrap(ul_box).wrap('<li class="ub-original"></li>');
         input_field.after(values_input);
+        input_field.width( opts.new_text_width );
+
+        ul_box = $('#ub-drop-'+name); // need to reset this, otherwise ul_box doesn't actually point
+                                      // to anything
 
         // make all clicks anywhere in the "improved input list" go to the actual input text box
-        $('#ub-drop-'+name).click(function(){
+        ul_box.click(function(){
             input_focus = true;
             input_field.focus();
         }).mousedown(function(){ input_focus = false; });
@@ -203,7 +204,7 @@ $.fn.userBox = function(data, options) {
                 case 13:  // return
                     var i_input = input_field.val().replace(/(,)/g, '').replace(/^\s+|\s+$/g, '');
                     if (i_input == '') break;
-                    add_selected_item(name, i_input);
+                    add_item_to_field(i_input, name);
                     input_field.val('');
                     break;
 
@@ -308,7 +309,8 @@ $.fn.userBox.defaults = {
                         // you can style it with .ub-title
     dbl_click: '',      // #id of default input field for on a double-click
     css_tricks: true,   // enable css tricks with padding, height, and width
-    prefill: []         // move or create items to selected fields
+    prefill: [],        // move or create items to selected fields
+    new_text_width: 150 // the text field is remade to this width
 };
 
 })(jQuery);
