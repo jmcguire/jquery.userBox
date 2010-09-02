@@ -6,10 +6,6 @@ KNOWN ERRORS:
   * "ub-index-#" cannot be ever entered manually. adjust with an option?
     "index_name_nudge"? better: recode to not confuse indicies and manual entries?
 
-  * if you activate an item by hitting delete key once, then add another item
-    to the field, the originally activated one isn't reset, and can reset with
-    one delete
-
   * if the user manually enters text that also exists in the userbox, should we
     figure this out, take it out of the userbox and insert that one instead?
     should we use the display_name?
@@ -22,4 +18,8 @@ KNOWN ERRORS:
     again? has to be a better option, lists?
 
   * the data should be retrievable via a json call
+
+  * add an item to an input, press the delete key once to active the
+    ub-item-active, now double-click an item in the userbox. the previously
+    activated item is still active, but it shouldn't be.
 

@@ -72,7 +72,7 @@ $.fn.userBox = function(data, options) {
         var ul_box = setup_input($(this));
 
         // set up some global variables
-        var name = $(this).attr('name');
+        var name = $(this).attr('name') + '';
         hidden_inputs[name] = $('#ub-values-' + name);
         text_inputs[name]   = $(this);
         li_inputs[name]     = $('#ub-drop-' + name + ' .ub-original');
@@ -179,7 +179,8 @@ $.fn.userBox = function(data, options) {
 
         var ul_box = $('<ul id="ub-drop-'+name+'" class="ub-inputlist"></ul>');
         ul_box.width( input_field.width() ); // respect the original input width
-        input_field.wrap(ul_box).wrap('<li class="ub-original"></li>');
+        input_field.wrap(ul_box);
+        input_field.wrap('<li class="ub-original"></li>');
         input_field.after(values_input);
         input_field.width( opts.new_text_width );
 
@@ -219,8 +220,23 @@ $.fn.userBox = function(data, options) {
                         }
                     }
                     break;
-
+                
+                // for any other keypress, remove the "ready to delete" class
+                default:
+                    var last_item = $('#ub-drop-' + name + ' > .ub-item').last();
+                    last_item.removeClass('ub-item-active');
+                    break;
             }
+        }).blur(function(event) {
+            // remove the "ready to delete" class, copied from above
+            var last_item = $('#ub-drop-' + name + ' > .ub-item').last();
+            last_item.removeClass('ub-item-active');
+
+            // turn any text into a ub-item, mostly copied from above
+            var i_input = input_field.val().replace(/(,)/g, '').replace(/^\s+|\s+$/g, '');
+            if (i_input == '') return;
+            add_item_to_field(i_input, name);
+            input_field.val('');
         });
         return ul_box;
     };
@@ -309,6 +325,7 @@ $.fn.userBox.defaults = {
                         // you can style it with .ub-title
     dbl_click: '',      // #id of default input field for on a double-click
     css_tricks: true,   // enable css tricks with padding, height, and width
+
     prefill: [],        // move or create items to selected fields
     new_text_width: 150 // the text field is remade to this width
 };
