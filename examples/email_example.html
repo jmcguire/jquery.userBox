@@ -52,7 +52,11 @@ $(document).ready(function() {
         userbox: '#userlist',
         data_id_field: 'email',
         data_text_field: 'name',
-        title: 'User list'
+        title: 'User list',
+        prefill: {
+            'to': 'gary@test.com', 
+            'cc': ['adam@test.com', 'noone@test.com']
+        },
     });
 });
 </script>
