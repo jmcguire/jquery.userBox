@@ -7,12 +7,12 @@
 <style>
 td,th { vertical-align: top }
 
-/* userBox will respect the your input widths */
+/* userBox will respect your input widths */
 input {
     width: 400px;
 }
 
-/* you can shape the size and colors of the userBox */
+/* you can change the size and colors of the userBox */
 #userlist {
     width: 200px;
     height: 200px;
@@ -48,7 +48,7 @@ var data = [
 ];
 
 $(document).ready(function() {
-    $('input').userBox(data, {
+    $('input#to, input#cc, input#bcc').userBox(data, {
         userbox: '#userlist',
         data_id_field: 'email',
         data_text_field: 'name',
