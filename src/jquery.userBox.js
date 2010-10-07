@@ -2,7 +2,7 @@
  * UserBox
  *
  * Copyright 2010 Justin McGuire. Licensed under the MIT License.
- * Contact: mcguire+justin@gmail.com
+ * Contact: mcguire.justin@gmail.com
  *
  * Version 1.0
  *
