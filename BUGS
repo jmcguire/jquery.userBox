@@ -1,5 +1,7 @@
 LONG TERM KNOWN ERRORS:
 
+  * needs updating.
+
   * if the user manually enters "ub-index-#" (where # is some number) into the
     text box, we'll get a copy of the item from the userbox with that id.
 
